@@ -28,6 +28,7 @@ Golems Timers spawn at 50% then every 2 mins
       { duration: 240, title: "Jail", reminderSpeech: "Jail soon" },
       { duration: 150, title: "Gargoyles", reminderSpeech: "Gargoyles soon" },
       { duration: 120, title: "Golem", reminderSpeech: "Golem soon" },
+      { duration: 150, title: "Smoke", reminderSpeech: "Smoke soon" },
       { isSeparator: true },
       {
         duration: 15,
