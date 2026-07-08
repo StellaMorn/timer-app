@@ -1,7 +1,7 @@
 {
   "name": "vl-timer-app",
   "version": "0.1.0",
-  "homepage": "https://1nefootstep.github.io/timer-app",
+  "homepage": "https://StellaMorn.github.io/timer-app",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
