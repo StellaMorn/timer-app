@@ -20,6 +20,7 @@ const Timer = ({
   nullableColorChangeThreshold,
   reminderSpeech,
   setTimerInstances,
+  soundEnabled,
 }) => {
   const colorChangeThreshold =
     nullableColorChangeThreshold === null ||
@@ -75,7 +76,7 @@ const Timer = ({
   useEffect(() => {
     if (isActive && !thresholdReached && seconds <= colorChangeThreshold) {
       setThresholdReached(true);
-      if (isSpeechSynthesisSupported && reminderSpeech) {
+      if (soundEnabled && isSpeechSynthesisSupported && reminderSpeech) {
         speak({ text: reminderSpeech, rate: SPEECH_RATE });
       }
     }
@@ -87,6 +88,7 @@ const Timer = ({
     thresholdReached,
     speak,
     isSpeechSynthesisSupported,
+    soundEnabled,
   ]);
 
   return (

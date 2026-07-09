@@ -12,7 +12,7 @@ const ConfigToggle = ({ onConfigChange }) => {
   };
 
   return (
-    <div className="mb-8">
+    <div>
       <label htmlFor="config-select" className="mr-2">
         Select Configuration:
       </label>

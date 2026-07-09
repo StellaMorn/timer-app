@@ -8,6 +8,7 @@ const TimerOrSeparator = ({
   colorChangeThreshold,
   reminderSpeech,
   setTimerInstances,
+  soundEnabled,
 }) => {
   if (isSeparator) {
     return <div className="w-full h-px bg-gray-400 col-span-full"></div>;
@@ -21,6 +22,7 @@ const TimerOrSeparator = ({
       colorChangeThreshold={colorChangeThreshold}
       reminderSpeech={reminderSpeech}
       setTimerInstances={setTimerInstances}
+      soundEnabled={soundEnabled}
     />
   );
 };

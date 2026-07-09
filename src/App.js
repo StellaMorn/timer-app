@@ -5,12 +5,26 @@ import TimerOrSeparator from "./components/TimerOrSeparator";
 import Footer from "./components/Footer";
 import { useSpeechRecognition } from "react-speech-kit";
 
+const SOUND_ENABLED_STORAGE_KEY = "soundEnabled";
+
 function App() {
   const [activeConfig, setActiveConfig] = useState(timerConfigs[0]);
   const [timerInstances, setTimerInstances] = useState({});
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const stored = localStorage.getItem(SOUND_ENABLED_STORAGE_KEY);
+    return stored === null ? true : stored === "true";
+  });
 
   const handleConfigChange = (config) => {
     setActiveConfig(config);
+  };
+
+  const toggleSound = () => {
+    setSoundEnabled((prev) => {
+      const next = !prev;
+      localStorage.setItem(SOUND_ENABLED_STORAGE_KEY, String(next));
+      return next;
+    });
   };
 
   const { listen, listening, stop, supported } = useSpeechRecognition({
@@ -77,7 +91,20 @@ function App() {
           </p>
         </div>
       )}
-      <ConfigToggle onConfigChange={handleConfigChange} />
+      <div className="flex items-center gap-4 mb-8">
+        <ConfigToggle onConfigChange={handleConfigChange} />
+        <button
+          onClick={toggleSound}
+          aria-label={soundEnabled ? "Mute sound" : "Unmute sound"}
+          className={`py-1 px-2 rounded border font-medium ${
+            soundEnabled
+              ? "border-gray-300 text-gray-700"
+              : "border-red-300 text-red-500"
+          }`}
+        >
+          {soundEnabled ? "🔊 Sound On" : "🔇 Sound Off"}
+        </button>
+      </div>
       {/* {supported && (
         <button
           onClick={() => (listening ? stop() : listen())}
@@ -101,6 +128,7 @@ function App() {
             colorChangeThreshold={timer.colorChangeThreshold}
             reminderSpeech={timer.reminderSpeech}
             setTimerInstances={setTimerInstances}
+            soundEnabled={soundEnabled}
           />
         ))}
       </div>
