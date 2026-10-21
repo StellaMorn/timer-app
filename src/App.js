@@ -3,6 +3,7 @@ import ConfigToggle from "./components/ConfigToggle";
 import timerConfigs from "./timerConfigs";
 import TimerOrSeparator from "./components/TimerOrSeparator";
 import Footer from "./components/Footer";
+import { CD_TIMER_TITLE, openCdTimerPopup } from "./cdTimer/CdTimerApp";
 import { useSpeechRecognition } from "react-speech-kit";
 
 const SOUND_ENABLED_STORAGE_KEY = "soundEnabled";
@@ -103,6 +104,12 @@ function App() {
           }`}
         >
           {soundEnabled ? "🔊 Sound On" : "🔇 Sound Off"}
+        </button>
+        <button
+          onClick={openCdTimerPopup}
+          className="py-1 px-2 rounded border border-green-400 text-green-700 font-medium hover:bg-green-50"
+        >
+          ⏱ {CD_TIMER_TITLE}
         </button>
       </div>
       {/* {supported && (
