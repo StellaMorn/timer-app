@@ -1,12 +1,14 @@
+import { moveItem } from "../hook/useDragReorder";
+
 export const STORAGE_KEY = "cdTimer.v1";
 export const DEFAULT_CUSTOM_MINUTES = 15;
 // How long the "UP!" shine effect stays visible after a timer finishes.
 export const JUST_READY_MS = 6000;
 
 export const CATEGORIES = [
-  { key: "20", label: "20分", minutes: 20, namePrefix: "TL" },
-  { key: "30", label: "30分", minutes: 30, namePrefix: "RES" },
-  { key: "10", label: "10分", minutes: 10, namePrefix: "SS" },
+  { key: "20", label: "TL", minutes: 20, namePrefix: "TL" },
+  { key: "30", label: "RES", minutes: 30, namePrefix: "RES" },
+  { key: "10", label: "SS", minutes: 10, namePrefix: "SS" },
   { key: "custom", label: "カスタム", minutes: null, namePrefix: "CUSTOM" },
 ];
 
@@ -55,22 +57,6 @@ export const parseState = (raw) => {
     };
   } catch (e) {
     return initial;
-  }
-};
-
-export const loadState = () => {
-  try {
-    return parseState(localStorage.getItem(STORAGE_KEY));
-  } catch (e) {
-    return createInitialState();
-  }
-};
-
-export const saveState = (state) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) {
-    // Storage may be unavailable (private mode etc.); the timers still work.
   }
 };
 
@@ -164,21 +150,11 @@ export const resetMember = (state, categoryKey, id) =>
     duration: null,
   }));
 
-export const moveMember = (state, categoryKey, fromIndex, toIndex) =>
+// Moves the member `fromId` to the position of the member `toId`.
+export const moveMember = (state, categoryKey, fromId, toId) =>
   updateMembers(state, categoryKey, (list) => {
-    if (
-      fromIndex === toIndex ||
-      fromIndex < 0 ||
-      toIndex < 0 ||
-      fromIndex >= list.length ||
-      toIndex >= list.length
-    ) {
-      return list;
-    }
-    const next = [...list];
-    const [moved] = next.splice(fromIndex, 1);
-    next.splice(toIndex, 0, moved);
-    return next;
+    const ids = list.map(({ id }) => id);
+    return moveItem(list, ids.indexOf(fromId), ids.indexOf(toId));
   });
 
 export const setCustomMinutes = (state, minutes) =>

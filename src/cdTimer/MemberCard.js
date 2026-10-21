@@ -18,9 +18,7 @@ const MemberCard = ({
   onReset,
   onRename,
   onRemove,
-  onDragStart,
-  onDragEnter,
-  onDragEnd,
+  dragProps,
 }) => {
   const [editing, setEditing] = useState(false);
   const [draftName, setDraftName] = useState(member.name);
@@ -56,12 +54,8 @@ const MemberCard = ({
       aria-disabled={running}
       aria-label={`${member.name} ${running ? formatTime(remaining) : "READY"}`}
       data-testid={`member-${member.name}`}
+      {...dragProps}
       draggable={!editing}
-      onDragStart={onDragStart}
-      onDragEnter={onDragEnter}
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => e.preventDefault()}
-      onDragEnd={onDragEnd}
       onClick={() => !running && !editing && onStart()}
       onKeyDown={(e) => {
         if (!running && !editing && (e.key === "Enter" || e.key === " ")) {

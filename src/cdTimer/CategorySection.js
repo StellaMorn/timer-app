@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MemberCard from "./MemberCard";
+import useDragReorder from "../hook/useDragReorder";
 
 const CustomMinutesInput = ({ minutes, onChange }) => {
   const [draft, setDraft] = useState(String(minutes));
@@ -41,18 +42,16 @@ const CategorySection = ({
   members,
   minutes,
   now,
-  draggingId,
   onAdd,
   onStart,
   onReset,
   onRename,
   onRemove,
+  onMove,
   onCustomMinutesChange,
-  onDragStart,
-  onDragEnter,
-  onDragEnd,
 }) => {
   const isCustom = category.minutes === null;
+  const { draggingId, dragProps } = useDragReorder(onMove);
 
   return (
     <section className="w-full p-4 bg-white shadow rounded-lg">
@@ -72,7 +71,7 @@ const CategorySection = ({
         <p className="text-sm text-gray-400">メンバーがいません</p>
       ) : (
         <div className="flex flex-wrap gap-3">
-          {members.map((member, index) => (
+          {members.map((member) => (
             <MemberCard
               key={member.id}
               member={member}
@@ -82,9 +81,7 @@ const CategorySection = ({
               onReset={() => onReset(member.id)}
               onRename={(name) => onRename(member.id, name)}
               onRemove={() => onRemove(member.id)}
-              onDragStart={(e) => onDragStart(e, member.id)}
-              onDragEnter={() => onDragEnter(index)}
-              onDragEnd={onDragEnd}
+              dragProps={dragProps(member.id)}
             />
           ))}
         </div>

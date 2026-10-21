@@ -1,28 +1,10 @@
 import { useState, useEffect } from "react";
-import { STORAGE_KEY, loadState, parseState, saveState } from "./cdTimerState";
+import usePersistentState from "../hook/usePersistentState";
+import { STORAGE_KEY, parseState } from "./cdTimerState";
 
 const NOW_TICK_MS = 250;
 
-export const useCdTimerState = () => {
-  const [state, setState] = useState(loadState);
-
-  useEffect(() => {
-    saveState(state);
-  }, [state]);
-
-  // Keep several open popups/tabs in sync.
-  useEffect(() => {
-    const handleStorage = (e) => {
-      if (e.key === STORAGE_KEY) {
-        setState(parseState(e.newValue));
-      }
-    };
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
-
-  return [state, setState];
-};
+export const useCdTimerState = () => usePersistentState(STORAGE_KEY, parseState);
 
 export const useNow = () => {
   const [now, setNow] = useState(() => Date.now());

@@ -58,7 +58,7 @@ test("rename ignores blank names and moveMember reorders", () => {
   state = renameMember(state, "10", first.id, "   ");
   expect(state.members["10"][0].name).toBe("SS1");
 
-  state = moveMember(state, "10", 0, 1);
+  state = moveMember(state, "10", first.id, second.id);
   expect(state.members["10"].map(({ id }) => id)).toEqual([second.id, first.id]);
 });
 
